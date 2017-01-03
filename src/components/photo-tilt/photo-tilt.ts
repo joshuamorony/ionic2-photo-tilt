@@ -15,23 +15,17 @@ export class PhotoTiltComponent {
   @Input('tiltHeight') tiltHeight: any;
 
   @ViewChild('mask') mask: any;
-  @ViewChild('tiltBar') tiltBar: any;
   @ViewChild('image') image: any;
-  @ViewChild('tiltBarIndicator') tiltBarIndicator: any;
 
   averageGamma: any = [];
   maxTilt: number = 20;
   latestTilt: any = 0;
   centerOffset: any;
-  tiltCenterOffset: any;
   resizedImageWidth: any;
   aspectRatio: any;
   delta: any;
   height: any;
   width: any;
-  tiltBarIndicatorWidth: any;
-  tiltBarWidth: any;
-  tiltBarPadding: number = 20;
 
   constructor(public platform: Platform, public domCtrl: DomController, public renderer: Renderer) {
 
@@ -55,14 +49,6 @@ export class PhotoTiltComponent {
 
     this.delta = this.resizedImageWidth - this.width;
     this.centerOffset = this.delta / 2;
-
-    this.tiltBarWidth = this.width - this.tiltBarPadding;
-
-    this.tiltBarIndicatorWidth = (this.width / this.tiltBarWidth) / this.resizedImageWidth;
-
-    this.renderer.setElementStyle(this.tiltBarIndicator.nativeElement, 'width', this.tiltBarIndicatorWidth + 'px');
-
-    this.tiltCenterOffset = ((this.tiltBarWidth / 2) - (this.tiltBarIndicatorWidth / 2));
 
     this.updatePosition();
 
@@ -100,20 +86,11 @@ export class PhotoTiltComponent {
     let pxToMove = (tilt * this.centerOffset) / this.maxTilt;
 
     this.updateTiltImage((this.centerOffset + pxToMove) * -1);
-    this.updateTiltBar(tilt);
 
   }
 
   updateTiltImage(pxToMove){
     this.renderer.setElementStyle(this.image.nativeElement, 'transform', 'translate3d(' + pxToMove + 'px,0,0)');
-  }
-
-  updateTiltBar(tilt){
-    
-    let pxToMove = (tilt * ((this.tiltBarWidth - this.tiltBarIndicatorWidth) / 2)) / this.maxTilt;
-    let translateX = this.tiltCenterOffset + pxToMove;
-    this.renderer.setElementStyle(this.tiltBarIndicator.nativeElement, 'transform', 'translate3d(' + translateX + 'px,0,0)');
-
   }
 
 }
