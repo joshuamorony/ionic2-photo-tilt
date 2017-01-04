@@ -37,7 +37,6 @@ export class PhotoTiltComponent {
       this.width = this.platform.width();
 
       this.aspectRatio = this.image.nativeElement.width / this.image.nativeElement.height;
-
       this.renderTilt();
 
   }
@@ -45,7 +44,9 @@ export class PhotoTiltComponent {
   renderTilt(){
 
     this.image.nativeElement.height = this.height;
+
     this.resizedImageWidth = this.aspectRatio * this.image.nativeElement.height;
+    this.renderer.setElementStyle(this.image.nativeElement, 'width', this.resizedImageWidth + 'px');
 
     this.delta = this.resizedImageWidth - this.width;
     this.centerOffset = this.delta / 2;
